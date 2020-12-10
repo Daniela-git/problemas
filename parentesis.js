@@ -26,34 +26,37 @@ function pairs(start, end){
 function rightPairs(input) {
   let inputList = input.split("");
   let queue = []
-  let stack = []
+  // let stack = []
   let fail = false
   for (let i = 0; i < inputList.length; i++) {
-    //guardamos los de abrir en una pila y lo de cerrar en una cola
+    //guardamos los de abrir en una pila
     if (open(inputList[i])) {
       queue.push(inputList[i])
     } else {
-      stack.push(inputList[i])
-      //mirarmos si el elemento siguiente es o no uno de abrir
-      if((i+1<inputList.length && open(inputList[i+1])||(i==inputList.length-1))){
-        let fin = false
-        //comprobamos si hay errores de pares
-        while(!fin){
-          if(queue.length == 0 || stack.length == 0){
-            fin = true
-          }else if(!pairs(queue.pop(),stack.shift())){
-            fail = true
-            fin = true 
-            break;
-          }
-        }
+      //miramos si el ultimo que se guardó en la pila es el abrir del cerrar que nos acabamos de encontrar 
+      if(!pairs(queue.pop(),inputList[i])){
+        fail = true;
+        break;
       }
+      // if((i+1<inputList.length && open(inputList[i+1])||(i==inputList.length-1))){
+      //   let fin = false
+      //   //comprobamos si hay errores de pares
+      //   while(!fin){
+      //     if(queue.length == 0 || stack.length == 0){
+      //       fin = true
+      //     }else if(!pairs(queue.pop(),stack.shift())){
+      //       fail = true
+      //       fin = true 
+      //       break;
+      //     }
+      //   }
+      // }
     }
   }
   console.log("Are the string rigth?: "+!fail)
 }
-rightPairs("[{[]}]{([])}")
-rightPairs("[{[]}]{[])}")
-rightPairs("[()]{}{[()()]()}")
+rightPairs("[{[]}]{([])}") //true
+rightPairs("[{[]}]{[])}") //false
+rightPairs("[()]{}{[()()]()}") //true
 
 
